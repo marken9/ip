@@ -1,6 +1,11 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
+import task.TaskList;
 import task.Task;
+import task.Todo;
+import task.Deadline;
+import task.Event;
 
 public class Painter {
     public static void printLine() {
@@ -13,26 +18,19 @@ public class Painter {
         printLine();
     }
 
-    public static void markTaskList(boolean mark, Task[] taskList, int nTasks, int n) {
-        if (n > nTasks) {
-            printSentence("You only have " + nTasks + " tasks but you entered " + n + ".");
-            return;
-        }
-        if (mark) {
-            taskList[n - 1].markAsDone();
-            printSentence("Nice! I've marked this task as done: " + taskList[n - 1].toString());
-        } else {
-            taskList[n - 1].markAsUndone();
-            printSentence("OK, I've marked this task as not done yet: " + taskList[n - 1].toString());
-        }
-    }
 
-    public static void printTaskList(Task[] taskList, int nTasks) {
+    public static void printTaskList(TaskList taskList) {
         printLine();
         System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < nTasks; i += 1) {
-            System.out.println((i + 1) + ".[" + taskList[i].getStatusIcon() + "] " + taskList[i].getDescription());
-        }
+        System.out.print(taskList.toString());
+        printLine();
+    }
+
+    public static void printAddTask(TaskList taskList) {
+        printLine();
+        System.out.println("Got it. I've added this task:");
+        System.out.println(taskList.printTask(taskList.getnTasks()));
+        System.out.println("Now you have " + Integer.toString(taskList.getnTasks()) + " tasks in the list.");
         printLine();
     }
 
@@ -40,7 +38,7 @@ public class Painter {
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
 
-        Task[] taskList = new Task[100];
+        TaskList taskList = new TaskList();
         int nTasks = 0;
 
         while (true) {
@@ -49,27 +47,37 @@ public class Painter {
             line = in.nextLine();
             line = line.strip();
 
-            switch (line) {
+            String[] sentence;
+            sentence = line.split(" ");
+            switch (sentence[0]) {
             case "bye":
                 printSentence("Bye. Hope to see you again soon!");
                 return;
             case "list":
-                printTaskList(taskList, nTasks);
+                printTaskList(taskList);
+                break;
+            case "todo":
+                String[] s = Arrays.copyOfRange(sentence, 1, sentence.length);
+                String description = String.join(" ", s);
+                Todo t = new Todo(description);
+                taskList.add(t);
+                printAddTask(taskList);
+                break;
+            case "deadline":
+                break;
+            case "event":
+                break;
+            case "mark":
+                taskList.markTaskList(Integer.parseInt(sentence[1]), true);
+                break;
+            case "unmark":
+                taskList.markTaskList(Integer.parseInt(sentence[1]), false);
                 break;
             default:
-                String[] words = line.split(" ");
-                // Code assumes that mark/unmark is called correctly
-                // e.g. "mark string" will crash.
-                if (words[0].equals("mark")) {
-                    markTaskList(true, taskList, nTasks, Integer.parseInt(words[1]));
-                } else if (words[0].equals("unmark")) {
-                    markTaskList(false, taskList, nTasks, Integer.parseInt(words[1]));
-                } else {
-                    taskList[nTasks] = new Task(line);
-                    nTasks += 1;
-                    printSentence("Added: " + line);
+                printSentence("invalid command");
+                break;
                 }
             }
         }
     }
-}
+
