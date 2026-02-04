@@ -62,6 +62,9 @@ public class Painter {
 
             String[] sentence;
             sentence = line.split(" ");
+
+            int i;
+            int j;
             switch (sentence[0]) {
             case "bye":
                 printSentence("Bye. Hope to see you again soon!");
@@ -77,7 +80,7 @@ public class Painter {
                 printAddTask(taskList);
                 break;
             case "deadline":
-                int i = returnIndex(sentence, "/by");
+                i = returnIndex(sentence, "/by");
                 if (i > 0) {
                     String[] a = Arrays.copyOfRange(sentence, 1, i);
                     String descriptionDeadline = String.join(" ", a);
@@ -88,10 +91,24 @@ public class Painter {
                     printAddTask(taskList);
                 } else {
                     printError();
-                    break;
                 }
                 break;
             case "event":
+                i = returnIndex(sentence, "/from");
+                j = returnIndex(sentence,"/to");
+                if (i > 0 && j > 0) {
+                    String[] a = Arrays.copyOfRange(sentence, 1, i);
+                    String descriptionEvent = String.join(" ", a);
+                    String[] b = Arrays.copyOfRange(sentence, i + 1, j);
+                    String from = String.join(" ", b);
+                    String[] c = Arrays.copyOfRange(sentence, j + 1, sentence.length);
+                    String to = String.join(" ", c);
+                    Event e = new Event(descriptionEvent, from, to);
+                    taskList.add(e);
+                    printAddTask(taskList);
+                } else {
+                    printError();
+                }
                 break;
             case "mark":
                 taskList.markTaskList(Integer.parseInt(sentence[1]), true);
