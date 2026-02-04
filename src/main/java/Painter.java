@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.List;
 
 import task.TaskList;
 import task.Task;
@@ -34,6 +35,18 @@ public class Painter {
         printLine();
     }
 
+    public static int returnIndex(String[] sentence, String s) {
+        for (int i = 0; i < sentence.length; i += 1) {
+            if (sentence[i].equals(s)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void printError() {
+        printSentence("invalid command detected, try again");
+    }
 
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
@@ -58,12 +71,25 @@ public class Painter {
                 break;
             case "todo":
                 String[] s = Arrays.copyOfRange(sentence, 1, sentence.length);
-                String description = String.join(" ", s);
-                Todo t = new Todo(description);
+                String descriptionToDo = String.join(" ", s);
+                Todo t = new Todo(descriptionToDo);
                 taskList.add(t);
                 printAddTask(taskList);
                 break;
             case "deadline":
+                int i = returnIndex(sentence, "/by");
+                if (i > 0) {
+                    String[] a = Arrays.copyOfRange(sentence, 1, i);
+                    String descriptionDeadline = String.join(" ", a);
+                    String[] b = Arrays.copyOfRange(sentence, i + 1, sentence.length);
+                    String by = String.join(" ", b);
+                    Deadline d = new Deadline(descriptionDeadline, by);
+                    taskList.add(d);
+                    printAddTask(taskList);
+                } else {
+                    printError();
+                    break;
+                }
                 break;
             case "event":
                 break;
@@ -74,7 +100,7 @@ public class Painter {
                 taskList.markTaskList(Integer.parseInt(sentence[1]), false);
                 break;
             default:
-                printSentence("invalid command");
+                printError();
                 break;
                 }
             }
