@@ -52,11 +52,9 @@ public class Painter {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
 
         TaskList taskList = new TaskList();
-        int nTasks = 0;
-
+        Scanner in = new Scanner(System.in);
         while (true) {
             String line;
-            Scanner in = new Scanner(System.in);
             line = in.nextLine();
             line = line.strip();
 
@@ -67,6 +65,7 @@ public class Painter {
             int j;
             switch (sentence[0]) {
             case "bye":
+            case "exit":
                 printSentence("Bye. Hope to see you again soon!");
                 return;
             case "list":
