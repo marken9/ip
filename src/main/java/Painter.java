@@ -1,9 +1,7 @@
 import java.util.Scanner;
 import java.util.Arrays;
-import java.util.List;
 
 import task.TaskList;
-import task.Task;
 import task.Todo;
 import task.Deadline;
 import task.Event;
@@ -30,8 +28,8 @@ public class Painter {
     public static void printAddTask(TaskList taskList) {
         printLine();
         System.out.println("Got it. I've added this task:");
-        System.out.println(taskList.printTask(taskList.getnTasks()));
-        System.out.println("Now you have " + Integer.toString(taskList.getnTasks()) + " tasks in the list.");
+        System.out.println(taskList.printTask(taskList.getTaskCount()));
+        System.out.println("Now you have " + Integer.toString(taskList.getTaskCount()) + " tasks in the list.");
         printLine();
     }
 
@@ -48,6 +46,48 @@ public class Painter {
         printSentence("invalid command detected, try again");
     }
 
+
+    public static void handleToDo(String[] sentence, TaskList taskList) {
+        String[] s = Arrays.copyOfRange(sentence, 1, sentence.length);
+        String descriptionToDo = String.join(" ", s);
+        Todo t = new Todo(descriptionToDo);
+        taskList.add(t);
+        printAddTask(taskList);
+    }
+
+    public static void handleDeadline(String[] sentence, TaskList taskList) {
+        int i = returnIndex(sentence, "/by");
+        if (i > 0) {
+            String[] a = Arrays.copyOfRange(sentence, 1, i);
+            String descriptionDeadline = String.join(" ", a);
+            String[] b = Arrays.copyOfRange(sentence, i + 1, sentence.length);
+            String by = String.join(" ", b);
+            Deadline d = new Deadline(descriptionDeadline, by);
+            taskList.add(d);
+            printAddTask(taskList);
+        } else {
+            printError();
+        }
+    }
+
+    public static void handleEvent(String[] sentence, TaskList taskList) {
+        int i = returnIndex(sentence, "/from");
+        int j = returnIndex(sentence,"/to");
+        if (i > 0 && j > 0) {
+            String[] a = Arrays.copyOfRange(sentence, 1, i);
+            String descriptionEvent = String.join(" ", a);
+            String[] b = Arrays.copyOfRange(sentence, i + 1, j);
+            String from = String.join(" ", b);
+            String[] c = Arrays.copyOfRange(sentence, j + 1, sentence.length);
+            String to = String.join(" ", c);
+            Event e = new Event(descriptionEvent, from, to);
+            taskList.add(e);
+            printAddTask(taskList);
+        } else {
+            printError();
+        }
+    }
+
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
 
@@ -61,8 +101,6 @@ public class Painter {
             String[] sentence;
             sentence = line.split(" ");
 
-            int i;
-            int j;
             switch (sentence[0]) {
             case "bye":
             case "exit":
@@ -72,42 +110,13 @@ public class Painter {
                 printTaskList(taskList);
                 break;
             case "todo":
-                String[] s = Arrays.copyOfRange(sentence, 1, sentence.length);
-                String descriptionToDo = String.join(" ", s);
-                Todo t = new Todo(descriptionToDo);
-                taskList.add(t);
-                printAddTask(taskList);
+                handleToDo(sentence, taskList);
                 break;
             case "deadline":
-                i = returnIndex(sentence, "/by");
-                if (i > 0) {
-                    String[] a = Arrays.copyOfRange(sentence, 1, i);
-                    String descriptionDeadline = String.join(" ", a);
-                    String[] b = Arrays.copyOfRange(sentence, i + 1, sentence.length);
-                    String by = String.join(" ", b);
-                    Deadline d = new Deadline(descriptionDeadline, by);
-                    taskList.add(d);
-                    printAddTask(taskList);
-                } else {
-                    printError();
-                }
+                handleDeadline(sentence, taskList);
                 break;
             case "event":
-                i = returnIndex(sentence, "/from");
-                j = returnIndex(sentence,"/to");
-                if (i > 0 && j > 0) {
-                    String[] a = Arrays.copyOfRange(sentence, 1, i);
-                    String descriptionEvent = String.join(" ", a);
-                    String[] b = Arrays.copyOfRange(sentence, i + 1, j);
-                    String from = String.join(" ", b);
-                    String[] c = Arrays.copyOfRange(sentence, j + 1, sentence.length);
-                    String to = String.join(" ", c);
-                    Event e = new Event(descriptionEvent, from, to);
-                    taskList.add(e);
-                    printAddTask(taskList);
-                } else {
-                    printError();
-                }
+                handleEvent(sentence, taskList);
                 break;
             case "mark":
                 taskList.markTaskList(Integer.parseInt(sentence[1]), true);

@@ -2,22 +2,20 @@ package task;
 
 public class TaskList {
     protected Task[] taskList;
-    protected int nTasks;
-
+    protected int taskCount;
 
     public TaskList() {
         taskList = new Task[100];
-        nTasks = 0;
+        taskCount = 0;
     }
 
-    public int getnTasks() {
-        return nTasks;
+    public int getTaskCount() {
+        return taskCount;
     }
 
     public String printTask(int n) {
         return taskList[n - 1].toString();
     }
-
 
     public static void printLine() {
         System.out.println("____________________________________________________________");
@@ -29,13 +27,13 @@ public class TaskList {
         printLine();
     }
     public void add(Task t) {
-        taskList[nTasks] = t;
-        nTasks += 1;
+        taskList[taskCount] = t;
+        taskCount += 1;
     }
 
     public void markTaskList(int n, boolean isDone) {
-        if (n > nTasks) {
-            printSentence("You only have " + nTasks + " tasks but you entered " + n + ".");
+        if (n > taskCount) {
+            printSentence("You only have " + taskCount + " tasks but you entered " + n + ".");
             return;
         }
         if (isDone) {
@@ -54,7 +52,7 @@ public class TaskList {
 
     public String toString() {
         String a = "";
-        for (int i = 0; i < nTasks; i += 1) {
+        for (int i = 0; i < taskCount; i += 1) {
             a = a + Integer.toString( i + 1 ) + ". " + (taskList[i].toString()) + System.lineSeparator();
         }
         return a;

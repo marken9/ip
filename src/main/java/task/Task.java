@@ -13,20 +13,24 @@ public class Task {
         return (isDone ? "X" : " ");
     }
 
+    public boolean getIsDone() {
+        return isDone;
+    }
+
     public void markAsDone() {
-        this.isDone = true;
+        isDone = true;
     }
 
     public void markAsUndone() {
-        this.isDone = false;
+        isDone = false;
     }
 
     public void changeDescription(String x) {
-        this.description = x;
+        description = x;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public String toString() {
