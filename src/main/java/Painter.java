@@ -33,13 +33,25 @@ public class Painter {
         printLine();
     }
 
-    public static int returnIndex(String[] sentence, String s) throws PainterException{
+    public static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {
             if (sentence[i].equals(s)) {
                 return i;
             }
         }
-        throw new PainterException("Could not find " + s);
+        String command;
+        switch (s) {
+        case "/by":
+            command = "deadline";
+            break;
+        case "/from":
+        case "/to":
+            command = "event";
+            break;
+        default:
+            command = "unknown command";
+        }
+        throw new PainterException("Could not find " + s + " for " + command);
     }
 
     public static void printError() {
@@ -47,12 +59,11 @@ public class Painter {
     }
 
 
-
     public static void printException(PainterException e) {
         System.out.println("Hey! Stop trying to crash my system! Error: " + e.getMessage());
     }
 
-    public static boolean verifyToDo(String[] sentence) throws PainterException{
+    public static boolean verifyToDo(String[] sentence) throws PainterException {
         if (sentence.length <= 1) {
             throw new PainterException("Todo command missing description");
         }
@@ -74,19 +85,41 @@ public class Painter {
 
     }
 
+    public static boolean verifyDeadline(String[] description, String[] by) throws PainterException {
+        if (description.length <= 0) {
+            throw new PainterException("Deadline command missing description");
+        } else if (by.length <= 0) {
+            throw new PainterException("Deadline command missing \"/by\" description");
+        }
+        return true;
+    }
+
     public static void handleDeadline(String[] sentence, TaskList taskList) {
         try {
-        int i = returnIndex(sentence, "/by");
-        String[] a = Arrays.copyOfRange(sentence, 1, i);
-        String descriptionDeadline = String.join(" ", a);
-        String[] b = Arrays.copyOfRange(sentence, i + 1, sentence.length);
-        String by = String.join(" ", b);
-        Deadline d = new Deadline(descriptionDeadline, by);
-        taskList.add(d);
-        printAddTask(taskList);
+            int i = returnIndex(sentence, "/by");
+            String[] a = Arrays.copyOfRange(sentence, 1, i);
+            String[] b = Arrays.copyOfRange(sentence, i + 1, sentence.length);
+            if (verifyDeadline(a, b)) {
+                String descriptionDeadline = String.join(" ", a);
+                String by = String.join(" ", b);
+                Deadline d = new Deadline(descriptionDeadline, by);
+                taskList.add(d);
+                printAddTask(taskList);
+            }
         } catch (PainterException e) {
             printException(e);
         }
+    }
+
+    public static boolean verifyEvent(String[] description, String[] from, String[] to) throws PainterException {
+        if (description.length <= 0) {
+            throw new PainterException("Event command missing description");
+        } else if (from.length <= 0) {
+            throw new PainterException("Event command missing \"/from\" description");
+        } else if (to.length <= 0) {
+            throw new PainterException("Event command missing \"/to\" description");
+        }
+        return true;
     }
 
     public static void handleEvent(String[] sentence, TaskList taskList) {
@@ -94,14 +127,16 @@ public class Painter {
             int i = returnIndex(sentence, "/from");
             int j = returnIndex(sentence, "/to");
             String[] a = Arrays.copyOfRange(sentence, 1, i);
-            String descriptionEvent = String.join(" ", a);
             String[] b = Arrays.copyOfRange(sentence, i + 1, j);
-            String from = String.join(" ", b);
             String[] c = Arrays.copyOfRange(sentence, j + 1, sentence.length);
-            String to = String.join(" ", c);
-            Event e = new Event(descriptionEvent, from, to);
-            taskList.add(e);
-            printAddTask(taskList);
+            if (verifyEvent(a, b, c)) {
+                String descriptionEvent = String.join(" ", a);
+                String from = String.join(" ", b);
+                String to = String.join(" ", c);
+                Event e = new Event(descriptionEvent, from, to);
+                taskList.add(e);
+                printAddTask(taskList);
+            }
         } catch (PainterException e) {
             printException(e);
         }
@@ -109,7 +144,6 @@ public class Painter {
 
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
-
         TaskList taskList = new TaskList();
         Scanner in = new Scanner(System.in);
         while (true) {
@@ -146,8 +180,8 @@ public class Painter {
             default:
                 printError();
                 break;
-                }
             }
         }
     }
+}
 
