@@ -36,6 +36,12 @@ public class TaskList {
             printSentence("You only have " + taskCount + " tasks but you entered " + n + ".");
             return;
         }
+
+        if (n <= 0) {
+            printSentence("Task index cannot be 0 or negative");
+            return;
+        }
+
         if (isDone) {
             taskList[n - 1].markAsDone();
             printSentence("Nice! I've marked this task as done: " + taskList[n - 1].toString());

@@ -59,7 +59,7 @@ public class Painter {
     }
 
 
-    public static void printException(PainterException e) {
+    public static void printException(Exception e) {
         System.out.println("Hey! Stop trying to crash my system! Error: " + e.getMessage());
     }
 
@@ -142,6 +142,15 @@ public class Painter {
         }
     }
 
+    public static void markTask(String[] sentence, TaskList taskList, boolean isMark) {
+        try {
+            int taskNumber = Integer.parseInt(sentence[1]);
+            taskList.markTaskList(taskNumber, isMark);
+        } catch (NumberFormatException e) {
+            printException(e);
+        }
+    }
+
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
         TaskList taskList = new TaskList();
@@ -172,10 +181,10 @@ public class Painter {
                 handleEvent(sentence, taskList);
                 break;
             case "mark":
-                taskList.markTaskList(Integer.parseInt(sentence[1]), true);
+                markTask(sentence, taskList, true);
                 break;
             case "unmark":
-                taskList.markTaskList(Integer.parseInt(sentence[1]), false);
+                markTask(sentence, taskList, false);
                 break;
             default:
                 printError();
