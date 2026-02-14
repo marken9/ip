@@ -125,10 +125,17 @@ public class Painter {
         return true;
     }
 
+    public static void verifyEventIndex(int fromIndex, int toIndex) throws PainterException{
+        if (toIndex <= fromIndex) {
+            throw new PainterException("Event command invalid due to misplaced /from and /to");
+        }
+    }
+
     public static void handleEvent(String[] sentence, TaskList taskList) {
         try {
             int i = returnIndex(sentence, "/from");
             int j = returnIndex(sentence, "/to");
+            verifyEventIndex(i, j);
             String[] a = Arrays.copyOfRange(sentence, 1, i);
             String[] b = Arrays.copyOfRange(sentence, i + 1, j);
             String[] c = Arrays.copyOfRange(sentence, j + 1, sentence.length);
