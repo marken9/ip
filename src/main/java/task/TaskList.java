@@ -1,11 +1,14 @@
 package task;
 
 public class TaskList {
+    public static final int TASKLISTLENGTH = 100;
+    public static final String LINESTRING = "____________________________________________________________";
+
     protected Task[] taskList;
     protected int taskCount;
 
     public TaskList() {
-        taskList = new Task[100];
+        taskList = new Task[TASKLISTLENGTH];
         taskCount = 0;
     }
 
@@ -13,12 +16,12 @@ public class TaskList {
         return taskCount;
     }
 
-    public String printTask(int n) {
-        return taskList[n - 1].toString();
+    public String getTaskString(int taskNumber) {
+        return taskList[taskNumber - 1].toString();
     }
 
     public static void printLine() {
-        System.out.println("____________________________________________________________");
+        System.out.println(LINESTRING);
     }
 
     public static void printSentence(String x) {
@@ -55,13 +58,12 @@ public class TaskList {
         taskList[n].markAsUndone();
     }
 
-
     public String toString() {
-        String a = "";
+        String result = "";
         for (int i = 0; i < taskCount; i += 1) {
-            a = a + Integer.toString( i + 1 ) + ". " + (taskList[i].toString()) + System.lineSeparator();
-        }
-        return a;
+            result = result + Integer.toString( i + 1 ) + ". " + (taskList[i].toString()) + System.lineSeparator();
+        } // To explore StringBuilder class if free
+        return result;
     }
 
 }

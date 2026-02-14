@@ -7,8 +7,11 @@ import task.Deadline;
 import task.Event;
 
 public class Painter {
+
+    public static final String LINESTRING = "____________________________________________________________";
+
     public static void printLine() {
-        System.out.println("____________________________________________________________");
+        System.out.println(LINESTRING);
     }
 
     public static void printSentence(String x) {
@@ -28,7 +31,7 @@ public class Painter {
     public static void printAddTask(TaskList taskList) {
         printLine();
         System.out.println("Got it. I've added this task:");
-        System.out.println(taskList.printTask(taskList.getTaskCount()));
+        System.out.println(taskList.getTaskString(taskList.getTaskCount()));
         System.out.println("Now you have " + Integer.toString(taskList.getTaskCount()) + " tasks in the list.");
         printLine();
     }
