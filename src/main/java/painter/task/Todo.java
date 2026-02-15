@@ -10,4 +10,8 @@ public class Todo extends Task {
         return "[T]" + super.toString();
     }
 
+    public String toFileString() {
+        return ("T;" + this.getFileStatusIcon() + ";" + description);
+    }
+
 }

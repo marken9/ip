@@ -37,4 +37,12 @@ public class Task {
         return "[" + getStatusIcon() + "] " + description;
     }
 
+    public String getFileStatusIcon() {
+        return isDone ? "X" : "O";
+    }
+
+    public String toFileString() {
+        return ("T|" + this.getFileStatusIcon() + "|" + description);
+    }
+
 }

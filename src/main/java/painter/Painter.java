@@ -2,12 +2,17 @@ package painter;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 
 import painter.exception.PainterException;
 import painter.task.TaskList;
 import painter.task.Todo;
 import painter.task.Deadline;
 import painter.task.Event;
+
+
 
 public class Painter {
 
@@ -164,6 +169,7 @@ public class Painter {
         }
     }
 
+
     public static void handleDelete(String[] sentence, TaskList taskList) {
         try {
             int taskNumber = Integer.parseInt(sentence[1]);
@@ -177,6 +183,7 @@ public class Painter {
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
         TaskList taskList = new TaskList();
+        taskList.importToPainter();
         Scanner in = new Scanner(System.in);
         while (true) {
             String line;
@@ -211,6 +218,9 @@ public class Painter {
                 break;
             case "delete":
                 handleDelete(sentence, taskList);
+                break;
+            case "clear":
+                taskList.clear();
                 break;
             default:
                 printError();
