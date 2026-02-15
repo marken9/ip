@@ -54,6 +54,25 @@ public class TaskList {
         }
     }
 
+    public void deleteTask(int taskNumber) {
+        if (taskNumber > taskCount) {
+            printSentence("You only have " + taskCount + " tasks but you entered " + taskNumber + ".");
+            return;
+        }
+        if (taskNumber <= 0) {
+            printSentence("Task index cannot be 0 or negative");
+            return;
+        }
+        String removeTask = taskList.get(taskNumber - 1).toString();
+        taskList.remove(taskNumber - 1);
+        taskCount--;
+        printLine();
+        System.out.println("The following task was sent to the void: " + removeTask);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        printLine();
+
+    }
+
     public String toString() {
         String result = "";
         for (int i = 0; i < taskCount; i += 1) {
