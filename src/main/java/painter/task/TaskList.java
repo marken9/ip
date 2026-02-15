@@ -157,6 +157,7 @@ public class TaskList {
         String removeTask = taskList.get(taskNumber - 1).toString();
         taskList.remove(taskNumber - 1);
         taskCount--;
+        saveToFile();
         printLine();
         System.out.println("The following task was sent to the void: " + removeTask);
         System.out.println("Now you have " + taskCount + " tasks in the list.");

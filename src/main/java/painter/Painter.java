@@ -189,7 +189,10 @@ public class Painter {
             String line;
             line = in.nextLine();
             line = line.strip();
-
+            if (line.contains(";")) {
+                printSentence("Input not allowed to contain \";\"");
+                continue;
+            }
             String[] sentence;
             sentence = line.split(" ");
 
