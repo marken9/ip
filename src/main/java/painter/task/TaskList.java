@@ -54,6 +54,17 @@ public class TaskList {
         }
     }
 
+    public void deleteTask(int taskNumber) {
+        String removeTask = taskList.get(taskNumber - 1).toString();
+        taskList.remove(taskNumber - 1);
+        taskCount--;
+        printLine();
+        System.out.println("The following task was sent to the void: " + removeTask);
+        System.out.println("Now you have " + taskCount + " tasks in the list.");
+        printLine();
+
+    }
+
     public String toString() {
         String result = "";
         for (int i = 0; i < taskCount; i += 1) {

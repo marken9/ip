@@ -164,6 +164,16 @@ public class Painter {
         }
     }
 
+    public static void handleDelete(String[] sentence, TaskList taskList) {
+        try {
+            int taskNumber = Integer.parseInt(sentence[1]);
+            taskList.deleteTask(taskNumber);
+        } catch (NumberFormatException e) {
+            printException(e);
+        }
+    }
+
+
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
         TaskList taskList = new TaskList();
@@ -198,6 +208,9 @@ public class Painter {
                 break;
             case "unmark":
                 markTask(sentence, taskList, false);
+                break;
+            case "delete":
+                handleDelete(sentence, taskList);
                 break;
             default:
                 printError();
