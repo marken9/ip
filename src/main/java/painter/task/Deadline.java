@@ -16,6 +16,10 @@ public class Deadline extends Task {
         return by;
     }
 
+    public String toFileSting() {
+        return ("D|" + this.getFileStatusIcon() + "|" + description + "|" + getBy());
+    }
+
     public String toString() {
         return "[D]" + super.toString() + " (by: " + getBy() + ")";
     }

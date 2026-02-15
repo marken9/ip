@@ -172,6 +172,7 @@ public class Painter {
     public static void main(String[] args) {
         printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
         TaskList taskList = new TaskList();
+        taskList.importToPainter();
         Scanner in = new Scanner(System.in);
         while (true) {
             String line;

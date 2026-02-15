@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 public class TaskList {
     public static final String LINESTRING = "____________________________________________________________";
@@ -59,6 +61,22 @@ public class TaskList {
         saveToFile();
     }
 
+    private void printFileContents() throws FileNotFoundException {
+        File f = new File("./data/painter.txt"); // create a File for the given file path
+        Scanner s = new Scanner(f); // create a Scanner using the File as the source
+        while (s.hasNext()) {
+            System.out.println(s.nextLine());
+        }
+    }
+
+    public void importToPainter() {
+        try {
+            printFileContents();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+    }
+
     private void writeToFile(String filePath, String textToAdd) throws IOException {
         FileWriter fw = new FileWriter(filePath, false); // false to overwrite, true to append
         fw.write(textToAdd);
@@ -68,10 +86,18 @@ public class TaskList {
     public void saveToFile() {
         String filePath = "./data/painter.txt";
         try {
-            writeToFile(filePath, taskList.toString());
+            writeToFile(filePath, this.toFileString()); // !!! use this.toString() instead of taskList.toString() funny mistake
         } catch (IOException e) {
             System.out.println("Something went wrong: " + e.getMessage());
         }
+    }
+
+    public String toFileString() {
+        String result = "";
+        for (int i = 0; i < taskCount; i += 1) {
+            result = result + (taskList.get(i).toFileString()) + System.lineSeparator();
+        } // To explore StringBuilder class if free
+        return result;
     }
 
     public String toString() {
