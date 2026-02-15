@@ -1,10 +1,13 @@
+package painter;
+
 import java.util.Scanner;
 import java.util.Arrays;
 
-import task.TaskList;
-import task.Todo;
-import task.Deadline;
-import task.Event;
+import painter.exception.PainterException;
+import painter.task.TaskList;
+import painter.task.Todo;
+import painter.task.Deadline;
+import painter.task.Event;
 
 public class Painter {
 

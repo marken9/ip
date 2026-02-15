@@ -1,4 +1,4 @@
-package task;
+package painter.task;
 
 public class TaskList {
     public static final int TASKLISTLENGTH = 100;

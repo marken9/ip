@@ -1,4 +1,4 @@
-package task;
+package painter.task;
 
 public class Todo extends Task {
 

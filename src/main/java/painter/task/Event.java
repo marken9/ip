@@ -1,4 +1,4 @@
-package task;
+package painter.task;
 
 public class Event extends Task {
     protected String from;
