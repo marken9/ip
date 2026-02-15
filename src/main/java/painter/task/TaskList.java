@@ -1,5 +1,8 @@
 package painter.task;
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
 
 public class TaskList {
     public static final String LINESTRING = "____________________________________________________________";
@@ -32,6 +35,7 @@ public class TaskList {
     public void add(Task t) {
         taskList.add(t);
         taskCount += 1;
+        saveToFile();
     }
 
     public void markTaskList(int n, boolean isDone) {
@@ -51,6 +55,22 @@ public class TaskList {
         } else {
             taskList.get(n - 1).markAsUndone();
             printSentence("OK, I've marked this task as not done yet: " + taskList.get(n - 1));
+        }
+        saveToFile();
+    }
+
+    private void writeToFile(String filePath, String textToAdd) throws IOException {
+        FileWriter fw = new FileWriter(filePath, false); // false to overwrite, true to append
+        fw.write(textToAdd);
+        fw.close();
+    }
+
+    public void saveToFile() {
+        String filePath = "./data/painter.txt";
+        try {
+            writeToFile(filePath, taskList.toString());
+        } catch (IOException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
         }
     }
 
