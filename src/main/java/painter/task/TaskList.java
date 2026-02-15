@@ -55,6 +55,14 @@ public class TaskList {
     }
 
     public void deleteTask(int taskNumber) {
+        if (taskNumber > taskCount) {
+            printSentence("You only have " + taskCount + " tasks but you entered " + taskNumber + ".");
+            return;
+        }
+        if (taskNumber <= 0) {
+            printSentence("Task index cannot be 0 or negative");
+            return;
+        }
         String removeTask = taskList.get(taskNumber - 1).toString();
         taskList.remove(taskNumber - 1);
         taskCount--;
