@@ -1,14 +1,14 @@
 package painter.task;
+import java.util.ArrayList;
 
 public class TaskList {
-    public static final int TASKLISTLENGTH = 100;
     public static final String LINESTRING = "____________________________________________________________";
 
-    protected Task[] taskList;
+    protected ArrayList<Task> taskList;
     protected int taskCount;
 
     public TaskList() {
-        taskList = new Task[TASKLISTLENGTH];
+        taskList = new ArrayList<>();
         taskCount = 0;
     }
 
@@ -17,7 +17,7 @@ public class TaskList {
     }
 
     public String getTaskString(int taskNumber) {
-        return taskList[taskNumber - 1].toString();
+        return taskList.get(taskNumber - 1).toString();
     }
 
     public static void printLine() {
@@ -30,7 +30,7 @@ public class TaskList {
         printLine();
     }
     public void add(Task t) {
-        taskList[taskCount] = t;
+        taskList.add(t);
         taskCount += 1;
     }
 
@@ -46,22 +46,18 @@ public class TaskList {
         }
 
         if (isDone) {
-            taskList[n - 1].markAsDone();
-            printSentence("Nice! I've marked this task as done: " + taskList[n - 1].toString());
+            taskList.get(n - 1).markAsDone();
+            printSentence("Nice! I've marked this task as done: " + taskList.get(n - 1));
         } else {
-            taskList[n - 1].markAsUndone();
-            printSentence("OK, I've marked this task as not done yet: " + taskList[n - 1].toString());
+            taskList.get(n - 1).markAsUndone();
+            printSentence("OK, I've marked this task as not done yet: " + taskList.get(n - 1));
         }
-    }
-
-    public void unmarkTaskList(int n) {
-        taskList[n].markAsUndone();
     }
 
     public String toString() {
         String result = "";
         for (int i = 0; i < taskCount; i += 1) {
-            result = result + Integer.toString( i + 1 ) + ". " + (taskList[i].toString()) + System.lineSeparator();
+            result = result + Integer.toString( i + 1 ) + ". " + (taskList.get(i).toString()) + System.lineSeparator();
         } // To explore StringBuilder class if free
         return result;
     }
