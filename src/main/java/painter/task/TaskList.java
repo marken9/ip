@@ -118,7 +118,7 @@ public class TaskList {
         try {
             importFileContents();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found");
+            System.out.println("Something went wrong: automatic import failed due to missing path");
         }
     }
 
