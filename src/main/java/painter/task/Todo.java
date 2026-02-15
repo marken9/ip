@@ -11,7 +11,7 @@ public class Todo extends Task {
     }
 
     public String toFileString() {
-        return ("T|" + this.getFileStatusIcon() + "|" + description);
+        return ("T;" + this.getFileStatusIcon() + ";" + description);
     }
 
 }

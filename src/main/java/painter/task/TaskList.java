@@ -61,17 +61,55 @@ public class TaskList {
         saveToFile();
     }
 
-    private void printFileContents() throws FileNotFoundException {
+    private void markImportTask(String s) {
+        markTaskList(taskCount, s.equals("X"));
+    }
+
+    private void importToDo(String[] sentence) {
+        taskList.add(new Todo(sentence[2]));
+        taskCount++;
+        markImportTask(sentence[1]);
+    }
+
+    private void importDeadline(String[] sentence) {
+        taskList.add(new Deadline(sentence[2], sentence[3]));
+        taskCount++;
+        markImportTask(sentence[1]);
+    }
+
+    private void importEvent(String[] sentence) {
+        taskList.add(new Event(sentence[2], sentence[3], sentence[4]));
+        taskCount++;
+        markImportTask(sentence[1]);
+    }
+
+    private void importFileContents() throws FileNotFoundException {
         File f = new File("./data/painter.txt"); // create a File for the given file path
         Scanner s = new Scanner(f); // create a Scanner using the File as the source
         while (s.hasNext()) {
-            System.out.println(s.nextLine());
+            String line = s.nextLine();
+            String[] sentence = line.split(";");
+
+            switch (sentence[0]) {
+            case "T":
+                importToDo(sentence);
+                break;
+            case "D":
+                importDeadline(sentence);
+                break;
+            case "E":
+                importEvent(sentence);
+                break;
+            default:
+                System.out.println("default case while importing reached: bug?");
+                break;
+            }
         }
     }
 
     public void importToPainter() {
         try {
-            printFileContents();
+            importFileContents();
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }

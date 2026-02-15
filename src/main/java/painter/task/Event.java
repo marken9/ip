@@ -27,7 +27,7 @@ public class Event extends Task {
     }
 
     public String toFileString() {
-        return ("E|" + this.getFileStatusIcon() + "|" + description + "|" + getFrom() + "|" + getTo());
+        return ("E;" + this.getFileStatusIcon() + ";" + description + ";" + getFrom() + ";" + getTo());
 
     }
 
