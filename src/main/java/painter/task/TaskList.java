@@ -61,6 +61,13 @@ public class TaskList {
         saveToFile();
     }
 
+   public void clear() {
+        taskList.clear();
+        taskCount = 0;
+        saveToFile();
+        printSentence("Task list and file cleared.");
+    }
+
     private void markImportTask(String s) {
         markTaskList(taskCount, s.equals("X"));
     }

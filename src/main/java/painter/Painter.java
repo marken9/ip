@@ -205,6 +205,9 @@ public class Painter {
             case "unmark":
                 markTask(sentence, taskList, false);
                 break;
+            case "clear":
+                taskList.clear();
+                break;
             default:
                 printError();
                 break;
