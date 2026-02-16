@@ -69,7 +69,9 @@ public class TaskList {
     }
 
     private void markImportTask(String s) {
-        markTaskList(taskCount, s.equals("X"));
+        if (s.equals("X")) {
+            taskList.get(taskCount - 1).markAsDone();
+        }
     }
 
     private void importToDo(String[] sentence) {
@@ -112,6 +114,7 @@ public class TaskList {
                 break;
             }
         }
+        printSentence("Automatic file import completed.");
     }
 
     public void importToPainter() {
