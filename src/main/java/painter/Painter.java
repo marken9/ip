@@ -2,8 +2,6 @@ package painter;
 
 import java.util.Scanner;
 import java.util.Arrays;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 
 import painter.exception.PainterException;
@@ -11,38 +9,11 @@ import painter.task.TaskList;
 import painter.task.Todo;
 import painter.task.Deadline;
 import painter.task.Event;
-
+import painter.ui.Ui;
 
 
 public class Painter {
-
-    public static final String LINESTRING = "____________________________________________________________";
-
-    public static void printLine() {
-        System.out.println(LINESTRING);
-    }
-
-    public static void printSentence(String x) {
-        printLine();
-        System.out.println(x);
-        printLine();
-    }
-
-
-    public static void printTaskList(TaskList taskList) {
-        printLine();
-        System.out.println("Here are the tasks in your list:");
-        System.out.print(taskList.toString());
-        printLine();
-    }
-
-    public static void printAddTask(TaskList taskList) {
-        printLine();
-        System.out.println("Got it. I've added this task:");
-        System.out.println(taskList.getTaskString(taskList.getTaskCount()));
-        System.out.println("Now you have " + Integer.toString(taskList.getTaskCount()) + " tasks in the list.");
-        printLine();
-    }
+    private static Ui ui;
 
     public static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {
@@ -65,15 +36,6 @@ public class Painter {
         throw new PainterException("Could not find " + s + " for " + command);
     }
 
-    public static void printError() {
-        printSentence("Invalid command detected, try again");
-    }
-
-
-    public static void printException(Exception e) {
-        System.out.println("Hey! Stop trying to crash my system! Error: " + e.getMessage());
-    }
-
     public static boolean verifyToDo(String[] sentence) throws PainterException {
         if (sentence.length <= 1) {
             throw new PainterException("Todo command missing description");
@@ -88,10 +50,10 @@ public class Painter {
                 String descriptionToDo = String.join(" ", s);
                 Todo t = new Todo(descriptionToDo);
                 taskList.add(t);
-                printAddTask(taskList);
+                ui.printTaskAdded(taskList);
             }
         } catch (PainterException e) {
-            printException(e);
+            ui.printException(e);
         }
 
     }
@@ -115,10 +77,10 @@ public class Painter {
                 String by = String.join(" ", b);
                 Deadline d = new Deadline(descriptionDeadline, by);
                 taskList.add(d);
-                printAddTask(taskList);
+                ui.printTaskAdded(taskList);
             }
         } catch (PainterException e) {
-            printException(e);
+            ui.printException(e);
         }
     }
 
@@ -153,10 +115,10 @@ public class Painter {
                 String to = String.join(" ", c);
                 Event e = new Event(descriptionEvent, from, to);
                 taskList.add(e);
-                printAddTask(taskList);
+                ui.printTaskAdded(taskList);
             }
         } catch (PainterException e) {
-            printException(e);
+            ui.printException(e);
         }
     }
 
@@ -165,7 +127,7 @@ public class Painter {
             int taskNumber = Integer.parseInt(sentence[1]);
             taskList.markTaskList(taskNumber, isMark);
         } catch (NumberFormatException e) {
-            printException(e);
+            ui.printException(e);
         }
     }
 
@@ -175,14 +137,15 @@ public class Painter {
             int taskNumber = Integer.parseInt(sentence[1]);
             taskList.deleteTask(taskNumber);
         } catch (NumberFormatException e) {
-            printException(e);
+            ui.printException(e);
         }
     }
 
 
     public static void main(String[] args) {
-        printSentence("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
         TaskList taskList = new TaskList();
+        Ui ui = new Ui();
+        ui.printMessage("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
         taskList.importToPainter();
         Scanner in = new Scanner(System.in);
         while (true) {
@@ -190,7 +153,7 @@ public class Painter {
             line = in.nextLine();
             line = line.strip();
             if (line.contains(";")) {
-                printSentence("Input not allowed to contain \";\"");
+                ui.printMessage("Input not allowed to contain \";\"");
                 continue;
             }
             String[] sentence;
@@ -199,10 +162,10 @@ public class Painter {
             switch (sentence[0]) {
             case "bye":
             case "exit":
-                printSentence("Bye. Hope to see you again soon!");
+                ui.printMessage("Bye. Hope to see you again soon!");
                 return;
             case "list":
-                printTaskList(taskList);
+                ui.printTaskList(taskList);
                 break;
             case "todo":
                 handleToDo(sentence, taskList);
@@ -226,7 +189,7 @@ public class Painter {
                 taskList.clear();
                 break;
             default:
-                printError();
+                ui.printError("Invalid command detected, try again");
                 break;
             }
         }

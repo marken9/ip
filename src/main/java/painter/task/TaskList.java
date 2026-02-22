@@ -6,11 +6,15 @@ import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
+import painter.ui.Ui;
+
 public class TaskList {
     public static final String LINESTRING = "____________________________________________________________";
 
     protected ArrayList<Task> taskList;
     protected int taskCount;
+
+    private Ui ui;
 
     public TaskList() {
         taskList = new ArrayList<>();
@@ -42,21 +46,21 @@ public class TaskList {
 
     public void markTaskList(int n, boolean isDone) {
         if (n > taskCount) {
-            printSentence("You only have " + taskCount + " tasks but you entered " + n + ".");
+            ui.printMessage("You only have " + taskCount + " tasks but you entered " + n + ".");
             return;
         }
 
         if (n <= 0) {
-            printSentence("Task index cannot be 0 or negative");
+            ui.printMessage("Task index cannot be 0 or negative");
             return;
         }
 
         if (isDone) {
             taskList.get(n - 1).markAsDone();
-            printSentence("Nice! I've marked this task as done: " + taskList.get(n - 1));
+            ui.printTaskMarked(this.getTaskString(n), true);
         } else {
             taskList.get(n - 1).markAsUndone();
-            printSentence("OK, I've marked this task as not done yet: " + taskList.get(n - 1));
+            ui.printTaskMarked(this.getTaskString(n), true);
         }
         saveToFile();
     }
@@ -65,7 +69,7 @@ public class TaskList {
         taskList.clear();
         taskCount = 0;
         saveToFile();
-        printSentence("Task list and file cleared.");
+        ui.printMessage("Task list and file cleared.");
     }
 
     private void markImportTask(String s) {
