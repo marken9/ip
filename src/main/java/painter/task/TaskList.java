@@ -14,7 +14,7 @@ public class TaskList {
     protected ArrayList<Task> taskList;
     protected int taskCount;
 
-    private Ui ui;
+    private final Ui ui = new Ui();
 
     public TaskList() {
         taskList = new ArrayList<>();
@@ -154,21 +154,18 @@ public class TaskList {
 
     public void deleteTask(int taskNumber) {
         if (taskNumber > taskCount) {
-            printSentence("You only have " + taskCount + " tasks but you entered " + taskNumber + ".");
+            ui.printMessage("You only have " + taskCount + " tasks but you entered " + taskNumber + ".");
             return;
         }
         if (taskNumber <= 0) {
-            printSentence("Task index cannot be 0 or negative");
+            ui.printMessage("Task index cannot be 0 or negative");
             return;
         }
         String removeTask = taskList.get(taskNumber - 1).toString();
         taskList.remove(taskNumber - 1);
         taskCount--;
         saveToFile();
-        printLine();
-        System.out.println("The following task was sent to the void: " + removeTask);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
-        printLine();
+        ui.printTaskDeleted(removeTask, taskCount);
 
     }
 

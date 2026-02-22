@@ -13,7 +13,7 @@ import painter.ui.Ui;
 
 
 public class Painter {
-    private static Ui ui;
+    private static final Ui ui = new Ui();
 
     public static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {

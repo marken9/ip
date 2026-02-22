@@ -42,7 +42,7 @@ public class Task {
     }
 
     public String toFileString() {
-        return ("T|" + this.getFileStatusIcon() + "|" + description);
+        return ("T;" + this.getFileStatusIcon() + ";" + description);
     }
 
 }
