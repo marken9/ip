@@ -26,7 +26,7 @@ public class Painter {
     private Storage storage;
     private TaskList taskList;
 
-    public static int returnIndex(String[] sentence, String s) throws PainterException {
+    private static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {
             if (sentence[i].equals(s)) {
                 return i;
