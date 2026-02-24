@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import painter.ui.Ui;
 
 public class TaskList {
-    public static final String LINESTRING = "____________________________________________________________";
 
     protected ArrayList<Task> taskList;
     protected int taskCount;

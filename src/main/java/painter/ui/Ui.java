@@ -1,4 +1,5 @@
 package painter.ui;
+import painter.task.Task;
 import painter.task.TaskList;
 
 public class Ui {
@@ -25,6 +26,13 @@ public class Ui {
     public void printTaskList(TaskList taskList) {
         printLine();
         System.out.println("Here are the tasks in your list:");
+        System.out.print(taskList.toString()); // display format
+        printLine();
+    }
+
+    public void printMatchingTasks(TaskList taskList) {
+        printLine();
+        System.out.println("Here are the matching tasks in your list:");
         System.out.print(taskList.toString()); // display format
         printLine();
     }

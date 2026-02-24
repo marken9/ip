@@ -144,6 +144,21 @@ public class Painter {
         }
     }
 
+    public static void handleFind(String[] sentence, TaskList taskList) throws PainterException {
+        if (sentence.length <= 1) {
+            throw new PainterException("no keywords found when using find command");
+        }
+        String keyword = sentence[1];
+        TaskList tempTaskList = new TaskList();
+        for (int i = 0; i < taskList.getTaskCount(); i += 1) {
+            if (taskList.accessTask(i).getDescription().contains(keyword)) {
+                tempTaskList.add(taskList.accessTask(i));
+            }
+        }
+        ui.printMatchingTasks(tempTaskList);
+    }
+
+
 
     public static void main(String[] args) {
         Storage storage = new Storage("./data/painter.txt");
@@ -163,11 +178,6 @@ public class Painter {
             try {
                 String line;
                 line = in.nextLine();
-                line = line.strip();
-                if (line.contains(";")) {
-                    ui.printMessage("Input not allowed to contain \";\"");
-                    continue;
-                }
                 String commandWord = parser.getCommandWord(line);
                 String[] sentence = parser.getArgs(line);
                 switch (commandWord) {
@@ -198,6 +208,9 @@ public class Painter {
                     break;
                 case "clear":
                     taskList.clear();
+                    break;
+                case "find":
+                    handleFind(sentence, taskList);// only the first keyword will be detected
                     break;
                 default:
                     ui.printError("Invalid command detected, try again");
