@@ -5,15 +5,18 @@ import java.util.Arrays;
 
 
 import painter.exception.PainterException;
+import painter.storage.Storage;
 import painter.task.TaskList;
 import painter.task.Todo;
 import painter.task.Deadline;
 import painter.task.Event;
 import painter.ui.Ui;
 
+import painter.parser.Parser;
 
 public class Painter {
     private static final Ui ui = new Ui();
+    private static final Parser parser = new Parser();
 
     public static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {
@@ -95,7 +98,7 @@ public class Painter {
         return true;
     }
 
-    public static void verifyEventIndex(int fromIndex, int toIndex) throws PainterException{
+    public static void verifyEventIndex(int fromIndex, int toIndex) throws PainterException {
         if (toIndex <= fromIndex) {
             throw new PainterException("Event command invalid due to misplaced /from and /to");
         }
@@ -143,54 +146,66 @@ public class Painter {
 
 
     public static void main(String[] args) {
-        TaskList taskList = new TaskList();
+        Storage storage = new Storage("./data/painter.txt");
         Ui ui = new Ui();
-        ui.printMessage("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
-        taskList.importToPainter();
+        Parser parser = new Parser();
+        TaskList taskList;
+        try {
+            taskList = storage.load();
+            ui.printMessage("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
+        } catch (Exception e) {
+            ui.printException(e);
+            taskList = new TaskList();
+        }
+
         Scanner in = new Scanner(System.in);
         while (true) {
-            String line;
-            line = in.nextLine();
-            line = line.strip();
-            if (line.contains(";")) {
-                ui.printMessage("Input not allowed to contain \";\"");
-                continue;
-            }
-            String[] sentence;
-            sentence = line.split(" ");
-
-            switch (sentence[0]) {
-            case "bye":
-            case "exit":
-                ui.printMessage("Bye. Hope to see you again soon!");
-                return;
-            case "list":
-                ui.printTaskList(taskList);
-                break;
-            case "todo":
-                handleToDo(sentence, taskList);
-                break;
-            case "deadline":
-                handleDeadline(sentence, taskList);
-                break;
-            case "event":
-                handleEvent(sentence, taskList);
-                break;
-            case "mark":
-                markTask(sentence, taskList, true);
-                break;
-            case "unmark":
-                markTask(sentence, taskList, false);
-                break;
-            case "delete":
-                handleDelete(sentence, taskList);
-                break;
-            case "clear":
-                taskList.clear();
-                break;
-            default:
-                ui.printError("Invalid command detected, try again");
-                break;
+            try {
+                String line;
+                line = in.nextLine();
+                line = line.strip();
+                if (line.contains(";")) {
+                    ui.printMessage("Input not allowed to contain \";\"");
+                    continue;
+                }
+                String commandWord = parser.getCommandWord(line);
+                String[] sentence = parser.getArgs(line);
+                switch (commandWord) {
+                case "bye":
+                case "exit":
+                    ui.printMessage("Bye. Hope to see you again soon!");
+                    return;
+                case "list":
+                    ui.printTaskList(taskList);
+                    break;
+                case "todo":
+                    handleToDo(sentence, taskList);
+                    break;
+                case "deadline":
+                    handleDeadline(sentence, taskList);
+                    break;
+                case "event":
+                    handleEvent(sentence, taskList);
+                    break;
+                case "mark":
+                    markTask(sentence, taskList, true);
+                    break;
+                case "unmark":
+                    markTask(sentence, taskList, false);
+                    break;
+                case "delete":
+                    handleDelete(sentence, taskList);
+                    break;
+                case "clear":
+                    taskList.clear();
+                    break;
+                default:
+                    ui.printError("Invalid command detected, try again");
+                    break;
+                }
+                storage.save(taskList);
+            } catch (Exception e) {
+                ui.printException(e);
             }
         }
     }

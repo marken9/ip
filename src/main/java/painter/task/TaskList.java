@@ -25,23 +25,18 @@ public class TaskList {
         return taskCount;
     }
 
+    public Task accessTask(int n) {
+        return taskList.get(n);
+    }
+
     public String getTaskString(int taskNumber) {
         return taskList.get(taskNumber - 1).toString();
     }
 
-    public static void printLine() {
-        System.out.println(LINESTRING);
-    }
-
-    public static void printSentence(String x) {
-        printLine();
-        System.out.println(x);
-        printLine();
-    }
     public void add(Task t) {
         taskList.add(t);
         taskCount += 1;
-        saveToFile();
+
     }
 
     public void markTaskList(int n, boolean isDone) {
@@ -62,87 +57,14 @@ public class TaskList {
             taskList.get(n - 1).markAsUndone();
             ui.printTaskMarked(this.getTaskString(n), true);
         }
-        saveToFile();
     }
 
    public void clear() {
         taskList.clear();
         taskCount = 0;
-        saveToFile();
         ui.printMessage("Task list and file cleared.");
     }
 
-    private void markImportTask(String s) {
-        if (s.equals("X")) {
-            taskList.get(taskCount - 1).markAsDone();
-        }
-    }
-
-    private void importToDo(String[] sentence) {
-        taskList.add(new Todo(sentence[2]));
-        taskCount++;
-        markImportTask(sentence[1]);
-    }
-
-    private void importDeadline(String[] sentence) {
-        taskList.add(new Deadline(sentence[2], sentence[3]));
-        taskCount++;
-        markImportTask(sentence[1]);
-    }
-
-    private void importEvent(String[] sentence) {
-        taskList.add(new Event(sentence[2], sentence[3], sentence[4]));
-        taskCount++;
-        markImportTask(sentence[1]);
-    }
-
-    private void importFileContents() throws FileNotFoundException {
-        File f = new File("./data/painter.txt"); // create a File for the given file path
-        Scanner s = new Scanner(f); // create a Scanner using the File as the source
-        while (s.hasNext()) {
-            String line = s.nextLine();
-            String[] sentence = line.split(";");
-
-            switch (sentence[0]) {
-            case "T":
-                importToDo(sentence);
-                break;
-            case "D":
-                importDeadline(sentence);
-                break;
-            case "E":
-                importEvent(sentence);
-                break;
-            default:
-                System.out.println("default case while importing reached: bug?");
-                break;
-            }
-        }
-        printSentence("Automatic file import completed.");
-    }
-
-    public void importToPainter() {
-        try {
-            importFileContents();
-        } catch (FileNotFoundException e) {
-            System.out.println("Something went wrong: automatic import failed due to missing path");
-        }
-    }
-
-    private void writeToFile(String filePath, String textToAdd) throws IOException {
-        FileWriter fw = new FileWriter(filePath, false); // false to overwrite, true to append
-        fw.write(textToAdd);
-        fw.close();
-    }
-
-    public void saveToFile() {
-        String filePath = "./data/painter.txt";
-        try {
-            writeToFile(filePath, this.toFileString()); // !!! use this.toString() instead of taskList.toString() funny mistake
-        } catch (IOException e) {
-            System.out.println("Something went wrong: " + e.getMessage());
-        }
-    }
 
     public String toFileString() {
         String result = "";
@@ -164,7 +86,6 @@ public class TaskList {
         String removeTask = taskList.get(taskNumber - 1).toString();
         taskList.remove(taskNumber - 1);
         taskCount--;
-        saveToFile();
         ui.printTaskDeleted(removeTask, taskCount);
 
     }
