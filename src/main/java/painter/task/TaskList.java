@@ -1,13 +1,13 @@
 package painter.task;
 import java.util.ArrayList;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
 
 import painter.ui.Ui;
 
+/**
+ * Represents a list of tasks.
+ * Provides methods to add, delete, mark, unmark,
+ * and retrieve tasks.
+ */
 public class TaskList {
 
     protected ArrayList<Task> taskList;
@@ -31,13 +31,22 @@ public class TaskList {
     public String getTaskString(int taskNumber) {
         return taskList.get(taskNumber - 1).toString();
     }
-
+    /**
+     * Adds a task to the task list.
+     *
+     * @param t The task to be added.
+     */
     public void add(Task t) {
         taskList.add(t);
         taskCount += 1;
 
     }
-
+    /**
+     * Marks or unmarks a task.
+     *
+     * @param n The index of the task.
+     * @param isDone True to mark as done, false to unmark.
+     */
     public void markTaskList(int n, boolean isDone) {
         if (n > taskCount) {
             ui.printMessage("You only have " + taskCount + " tasks but you entered " + n + ".");
@@ -72,7 +81,11 @@ public class TaskList {
         } // To explore StringBuilder class if free
         return result;
     }
-
+    /**
+     * Deletes a task from the task list.
+     *
+     * @param taskNumber The index of the task to delete.
+     */
     public void deleteTask(int taskNumber) {
         if (taskNumber > taskCount) {
             ui.printMessage("You only have " + taskCount + " tasks but you entered " + taskNumber + ".");

@@ -1,5 +1,8 @@
 package painter.task;
 
+/**
+ * Represents a task with a deadline.
+ */
 public class Deadline extends Task {
     protected String by;
 

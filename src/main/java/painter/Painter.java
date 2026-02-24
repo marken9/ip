@@ -14,6 +14,12 @@ import painter.ui.Ui;
 
 import painter.parser.Parser;
 
+/**
+ * The main controller class for the Painter application.
+ * Painter coordinates the interaction between the user interface (Ui),
+ * storage system (Storage), and task list (TaskList).
+ * It processes user input and executes the corresponding commands.
+ */
 public class Painter {
     private static Ui ui = new Ui();
     private Parser parser;
@@ -160,6 +166,14 @@ public class Painter {
         ui.printMatchingTasks(tempTaskList);
     }
 
+
+
+    /**
+     * Constructs a Painter object and initializes storage, UI,
+     * parser, and loads tasks from the specified file path.
+     *
+     * @param filePath Path to the file used for saving and loading tasks.
+     */
     public Painter(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -174,7 +188,11 @@ public class Painter {
             ui.printException(e);
         }
     }
-
+    /**
+     * Starts the main program loop.
+     * Continuously reads user input and executes commands
+     * until the user exits the program.
+     */
     public void run() {
         Scanner in = new Scanner(System.in);
         while (true) {

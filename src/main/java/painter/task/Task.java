@@ -1,6 +1,11 @@
 package painter.task;
 
-public class Task {
+/**
+ * Abstract base class representing a generic task.
+ * Stores task description and completion status.
+ */
+
+public abstract class Task {
     protected String description;
     protected boolean isDone;
 
