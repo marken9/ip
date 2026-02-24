@@ -15,8 +15,10 @@ import painter.ui.Ui;
 import painter.parser.Parser;
 
 public class Painter {
-    private static final Ui ui = new Ui();
-    private static final Parser parser = new Parser();
+    private static Ui ui = new Ui();
+    private Parser parser;
+    private Storage storage;
+    private TaskList taskList;
 
     public static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {
@@ -158,21 +160,22 @@ public class Painter {
         ui.printMatchingTasks(tempTaskList);
     }
 
+    public Painter(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        parser = new Parser();
 
-
-    public static void main(String[] args) {
-        Storage storage = new Storage("./data/painter.txt");
-        Ui ui = new Ui();
-        Parser parser = new Parser();
-        TaskList taskList;
         try {
             taskList = storage.load();
-            ui.printMessage("Hello expendable. I'm Painter :D\nPlay with my task list and I'll open the way to the escape submarine");
+            ui.printMessage("Hello expendable. I'm Painter :D\n"
+                    + "Play with my task list and I'll open the way to the escape submarine");
         } catch (Exception e) {
-            ui.printException(e);
             taskList = new TaskList();
+            ui.printException(e);
         }
+    }
 
+    public void run() {
         Scanner in = new Scanner(System.in);
         while (true) {
             try {
@@ -222,5 +225,10 @@ public class Painter {
             }
         }
     }
-}
+
+    public static void main(String[] args) {
+        new Painter("./data/painter.txt").run();
+        }
+    }
+
 

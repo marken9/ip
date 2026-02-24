@@ -70,13 +70,13 @@ public class Storage {
             }
         }
 
-    public TaskList load() throws FileNotFoundException {
+    public TaskList load() throws NullPointerException {
         File f = new File(filePath);
         if (!f.exists()) {
             // If no file yet, start with empty list
+            ui.printError("Loading failed due to missing file path. Starting with a new empty task list.");
             return taskList;
         }
-
         try {
             Scanner sc = new Scanner(f);
             while (sc.hasNextLine()) {
