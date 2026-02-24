@@ -43,6 +43,16 @@ public class Storage {
         }
     }
 
+    private boolean checkSeparator(String line, int expectedSemicolons) {
+        int count = 0;
+        for (int i = 0; i < line.length(); i++) {
+            if (line.charAt(i) == ';') {
+                count++;
+            }
+        }
+        return count == expectedSemicolons;
+    }
+
     private void importToDo(String[] sentence) {
         taskList.add(new Todo(sentence[2]));
 
@@ -61,9 +71,38 @@ public class Storage {
         markImportTask(sentence[1]);
     }
 
+    /**
+     * Parses a single line from the storage file and reconstructs
+     * the corresponding Task object.
+     * The method first validates that the line contains the correct
+     * number of separators (';') based on the task type.
+     * It then delegates task creation to the appropriate import method.
+     *
+     * @param s A single line from the data file representing a task.
+     * @throws PainterException If the task type is unknown or
+     *                          if the line format is invalid.
+     */
     private void importTask(String s) throws PainterException {
+        String[] sentence = s.split(";");
+        int expected;
+        switch (sentence[0]) {
+        case "T":
+            expected = 2;
+            break;
+        case "D":
+            expected = 3;
+            break;
+        case "E":
+            expected = 5;
+            break;
+        default:
+            throw new PainterException("Unknown task found in data when importing");
+        }
 
-            String[] sentence = s.split(";");
+        if (!checkSeparator(s, expected)) {
+            throw new PainterException("Corrupted task line (wrong number of ';'): " + s);
+        }
+
             switch (sentence[0]) {
             case "T":
                 importToDo(sentence);
@@ -118,6 +157,4 @@ public class Storage {
             ui.printException(e);
         }
     }
-
-
 }

@@ -9,6 +9,7 @@ import painter.exception.PainterException;
 public class Parser {
     /**
      * Check the raw input for unallowed elements.
+     * ';' is not allowed because it is used as the separator when saving to file
      *
      * @param line One line of input from the user.
      * @throws PainterException If the input contains unallowed characters
