@@ -25,6 +25,14 @@ public class Painter {
     private Storage storage;
     private TaskList taskList;
 
+    /**
+     * Returns the index of a specified string in the input array.
+     *
+     * @param sentence Split user input.
+     * @param s The separator to search for (e.g., "/by", "/from").
+     * @return The index of the separator.
+     * @throws PainterException If the separator is not found.
+     */
     private static int returnIndex(String[] sentence, String s) throws PainterException {
         for (int i = 0; i < sentence.length; i += 1) {
             if (sentence[i].equals(s)) {
@@ -52,7 +60,12 @@ public class Painter {
         }
         return true;
     }
-
+    /**
+     * Handles the "todo" command by creating and adding a Todo task.
+     *
+     * @param sentence Split user input.
+     * @param taskList The current task list.
+     */
     public static void handleToDo(String[] sentence, TaskList taskList) {
         try {
             if (verifyToDo(sentence)) {
@@ -76,7 +89,13 @@ public class Painter {
         }
         return true;
     }
-
+    /**
+     * Handles the "deadline" command by creating and adding a Deadline task.
+     * Validates the presence of the "/by" separator.
+     *
+     * @param sentence Split user input.
+     * @param taskList The current task list.
+     */
     public static void handleDeadline(String[] sentence, TaskList taskList) {
         try {
             int i = returnIndex(sentence, "/by");
@@ -110,7 +129,13 @@ public class Painter {
             throw new PainterException("Event command invalid due to misplaced /from and /to");
         }
     }
-
+    /**
+     * Handles the "event" command by creating and adding an Event task.
+     * Validates the "/from" and "/to" separators.
+     *
+     * @param sentence Split user input.
+     * @param taskList The current task list.
+     */
     public static void handleEvent(String[] sentence, TaskList taskList) {
         try {
             int i = returnIndex(sentence, "/from");
@@ -132,6 +157,13 @@ public class Painter {
         }
     }
 
+    /**
+     * Handles the "mark" and "unmark" commands.
+     *
+     * @param sentence Split user input.
+     * @param taskList The current task list.
+     * @param isMark True to mark as done, false to unmark.
+     */
     public static void markTask(String[] sentence, TaskList taskList, boolean isMark) {
         try {
             int taskNumber = Integer.parseInt(sentence[1]);
@@ -141,7 +173,12 @@ public class Painter {
         }
     }
 
-
+    /**
+     * Handles the "delete" command by removing a task.
+     *
+     * @param sentence Split user input.
+     * @param taskList The current task list.
+     */
     public static void handleDelete(String[] sentence, TaskList taskList) {
         try {
             int taskNumber = Integer.parseInt(sentence[1]);
@@ -150,7 +187,14 @@ public class Painter {
             ui.printException(e);
         }
     }
-
+    /**
+     * Handles the "find" command by searching for tasks
+     * containing the specified keyword.
+     *
+     * @param sentence Split user input.
+     * @param taskList The current task list.
+     * @throws PainterException If no keyword is provided.
+     */
     public static void handleFind(String[] sentence, TaskList taskList) throws PainterException {
         if (sentence.length <= 1) {
             throw new PainterException("no keywords found when using find command");
