@@ -18,14 +18,15 @@ It allows users to:
 ## Quick Start
 
 1. Ensure you have **Java 17 or later** installed.
-2. Download the jar file from [here](https://github.com/marken9/ip/releases/tag/v0.1)
-3. Open a command terminal, cd into the folder you put the jar file in, and use the following command.
+2. Download the jar file from [here](https://github.com/marken9/ip/releases/tag/v0.2)
+3. Move the jar file to any folder and create an empty folder named "data" beside it.
+4. Open a command terminal, cd into the folder you put the jar file in, and use the following command.
 
 ```
 java -jar painter.jar
 ```
 
-4. Type commands in the console and press Enter.
+5. Type commands in the console and press Enter.
 
 ---
 
