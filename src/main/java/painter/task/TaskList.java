@@ -66,7 +66,10 @@ public class TaskList {
             ui.printTaskMarked(this.getTaskString(n), true);
         }
     }
-
+    /**
+     * Clears all tasks from the task list.
+     *
+     */
    public void clear() {
         taskList.clear();
         taskCount = 0;
