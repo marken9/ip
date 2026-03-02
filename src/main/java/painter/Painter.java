@@ -3,7 +3,6 @@ package painter;
 import java.util.Scanner;
 import java.util.Arrays;
 
-
 import painter.exception.PainterException;
 import painter.storage.Storage;
 import painter.task.TaskList;

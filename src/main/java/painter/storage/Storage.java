@@ -5,15 +5,12 @@ import painter.ui.Ui;
 import painter.exception.PainterException;
 import painter.task.Deadline;
 import painter.task.Event;
-import painter.task.Task;
 import painter.task.TaskList;
 import painter.task.Todo;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -93,7 +90,7 @@ public class Storage {
             expected = 3;
             break;
         case "E":
-            expected = 5;
+            expected = 4;
             break;
         default:
             throw new PainterException("Unknown task found in data when importing");
