@@ -200,13 +200,7 @@ public class Painter {
             throw new PainterException("no keywords found when using find command");
         }
         String keyword = sentence[1];
-        TaskList tempTaskList = new TaskList();
-        for (int i = 0; i < taskList.getTaskCount(); i += 1) {
-            if (taskList.accessTask(i).getDescription().contains(keyword)) {
-                tempTaskList.add(taskList.accessTask(i));
-            }
-        }
-        ui.printMatchingTasks(tempTaskList);
+        ui.printMatchingTasks(taskList.find(keyword));
     }
 
 
