@@ -75,7 +75,20 @@ public class TaskList {
         taskCount = 0;
         ui.printMessage("Task list and file cleared.");
     }
-
+    /**
+     * Returns a TaskList containing all tasks that have the specified keyword
+     *
+     * @param keyword The keyword used to filter tasks by their description.
+     */
+    public TaskList find(String keyword) {
+        TaskList tempTaskList = new TaskList();
+        for (int i = 0; i < this.getTaskCount(); i += 1) {
+            if (this.accessTask(i).getDescription().contains(keyword)) {
+                tempTaskList.add(this.accessTask(i));
+            }
+        }
+        return tempTaskList;
+    }
 
     public String toFileString() {
         String result = "";
