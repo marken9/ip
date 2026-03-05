@@ -66,7 +66,7 @@ public class TaskList {
             ui.printTaskMarked(this.getTaskString(n), true);
         } else {
             taskList.get(n - 1).markAsUndone();
-            ui.printTaskMarked(this.getTaskString(n), true);
+            ui.printTaskMarked(this.getTaskString(n), false);
         }
     }
 
