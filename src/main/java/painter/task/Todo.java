@@ -1,4 +1,5 @@
 package painter.task;
+
 /**
  * Represents a simple to-do task without a date or time.
  */

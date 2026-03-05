@@ -22,6 +22,7 @@ public class Parser {
             throw new PainterException("Input not allowed to contain ';'");
         }
     }
+
     /**
      * Extracts the command word from user input.
      *
@@ -34,6 +35,7 @@ public class Parser {
         String trimmed = input.strip();
         return trimmed.split(" ")[0];
     }
+
     /**
      * Splits the user input into individual strings.
      *

@@ -100,20 +100,20 @@ public class Storage {
             throw new PainterException("Corrupted task line (wrong number of ';'): " + s);
         }
 
-            switch (sentence[0]) {
-            case "T":
-                importToDo(sentence);
-                break;
-            case "D":
-                importDeadline(sentence);
-                break;
-            case "E":
-                importEvent(sentence);
-                break;
-            default:
-                throw new PainterException("Unknown task found in data when importing");
-            }
+        switch (sentence[0]) {
+        case "T":
+            importToDo(sentence);
+            break;
+        case "D":
+            importDeadline(sentence);
+            break;
+        case "E":
+            importEvent(sentence);
+            break;
+        default:
+            throw new PainterException("Unknown task found in data when importing");
         }
+    }
 
     /**
      * Loads tasks from the storage file into a TaskList.
