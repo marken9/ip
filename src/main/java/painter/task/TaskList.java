@@ -1,4 +1,5 @@
 package painter.task;
+
 import java.util.ArrayList;
 
 import painter.ui.Ui;
@@ -31,6 +32,7 @@ public class TaskList {
     public String getTaskString(int taskNumber) {
         return taskList.get(taskNumber - 1).toString();
     }
+
     /**
      * Adds a task to the task list.
      *
@@ -41,10 +43,11 @@ public class TaskList {
         taskCount += 1;
 
     }
+
     /**
      * Marks or unmarks a task.
      *
-     * @param n The index of the task.
+     * @param n      The index of the task.
      * @param isDone True to mark as done, false to unmark.
      */
     public void markTaskList(int n, boolean isDone) {
@@ -66,15 +69,17 @@ public class TaskList {
             ui.printTaskMarked(this.getTaskString(n), true);
         }
     }
+
     /**
      * Clears all tasks from the task list.
      *
      */
-   public void clear() {
+    public void clear() {
         taskList.clear();
         taskCount = 0;
         ui.printMessage("Task list and file cleared.");
     }
+
     /**
      * Returns a TaskList containing all tasks that have the specified keyword
      *
@@ -97,6 +102,7 @@ public class TaskList {
         } // To explore StringBuilder class if free
         return result;
     }
+
     /**
      * Deletes a task from the task list.
      *
@@ -121,7 +127,7 @@ public class TaskList {
     public String toString() {
         String result = "";
         for (int i = 0; i < taskCount; i += 1) {
-            result = result + Integer.toString( i + 1 ) + ". " + (taskList.get(i).toString()) + System.lineSeparator();
+            result = result + Integer.toString(i + 1) + ". " + (taskList.get(i).toString()) + System.lineSeparator();
         } // To explore StringBuilder class if free
         return result;
     }

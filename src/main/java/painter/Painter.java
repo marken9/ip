@@ -29,7 +29,7 @@ public class Painter {
      * Returns the index of a specified string in the input array.
      *
      * @param sentence Split user input.
-     * @param s The separator to search for (e.g., "/by", "/from").
+     * @param s        The separator to search for (e.g., "/by", "/from").
      * @return The index of the separator.
      * @throws PainterException If the separator is not found.
      */
@@ -60,6 +60,7 @@ public class Painter {
         }
         return true;
     }
+
     /**
      * Handles the "todo" command by creating and adding a Todo task.
      *
@@ -89,6 +90,7 @@ public class Painter {
         }
         return true;
     }
+
     /**
      * Handles the "deadline" command by creating and adding a Deadline task.
      * Validates the presence of the "/by" separator.
@@ -129,6 +131,7 @@ public class Painter {
             throw new PainterException("Event command invalid due to misplaced /from and /to");
         }
     }
+
     /**
      * Handles the "event" command by creating and adding an Event task.
      * Validates the "/from" and "/to" separators.
@@ -162,7 +165,7 @@ public class Painter {
      *
      * @param sentence Split user input.
      * @param taskList The current task list.
-     * @param isMark True to mark as done, false to unmark.
+     * @param isMark   True to mark as done, false to unmark.
      */
     public static void markTask(String[] sentence, TaskList taskList, boolean isMark) {
         try {
@@ -187,6 +190,7 @@ public class Painter {
             ui.printException(e);
         }
     }
+
     /**
      * Handles the "find" command by searching for tasks
      * containing the specified keyword.
@@ -202,7 +206,6 @@ public class Painter {
         String keyword = sentence[1];
         ui.printMatchingTasks(taskList.find(keyword));
     }
-
 
 
     /**
@@ -225,6 +228,7 @@ public class Painter {
             ui.printException(e);
         }
     }
+
     /**
      * Starts the main program loop.
      * Continuously reads user input and executes commands
@@ -283,7 +287,7 @@ public class Painter {
 
     public static void main(String[] args) {
         new Painter("./data/painter.txt").run();
-        }
     }
+}
 
 
